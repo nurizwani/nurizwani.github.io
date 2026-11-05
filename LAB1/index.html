@@ -3,91 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melaka Historical & Cultural Travel Guide</title>
+    <title>VisitMelaka 2026 - Portal Warisan Futuristik</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Background Ambient Orbs -->
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+
+    <!-- Header / Navbar -->
     <header class="navbar">
-        <div class="logo">VisitMelaka</div>
+        <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-cube"></i></div>
+            <span>Visit<span class="text-neon">Melaka</span></span>
+        </div>
         <nav>
             <ul>
-                <li><a href="#home">Utama</a></li>
-                <li><a href="#attractions">Tempat Menarik</a></li>
-                <li><a href="#food">Makanan Popular</a></li>
-                <li><a href="#tips">Tips Pelancong</a></li>
+                <li><a href="#home" class="active"><i class="fa-solid fa-house"></i> Utama</a></li>
+                <li><a href="#attractions"><i class="fa-solid fa-compass"></i> Mercu Tanda</a></li>
+                <li><a href="#food"><i class="fa-solid fa-utensils"></i> Kuliner</a></li>
+                <li><a href="#tips"><i class="fa-solid fa-circle-info"></i> Info</a></li>
             </ul>
         </nav>
+        <a href="#attractions" class="btn-nav">Jelajah Sekarang</a>
     </header>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
         <div class="hero-content">
-            <h1>Selamat Datang ke Melaka</h1>
-            <p>Terokai Keindahan Bandar Raya Bersejarah & Warisan UNESCO</p>
-            <a href="#attractions" class="btn">Mula Meneroka</a>
+            <div class="status-badge">
+                <span class="pulse-dot"></span> UNESCO WORLD HERITAGE SITE 2026
+            </div>
+            <h1 class="hero-title">
+                Eksplorasi Warisan <br>
+                <span class="gradient-text">Melaka Bersejarah</span>
+            </h1>
+            <p class="hero-desc">
+                Portal pelancongan masa depan yang menggabungkan keindahan seni bina klasik, sejarah lampau 1511, dan keunikan citarasa tempatan.
+            </p>
+            <div class="hero-actions">
+                <a href="#attractions" class="btn btn-neon"><i class="fa-solid fa-rocket"></i> Mula Terokai</a>
+                <a href="#food" class="btn btn-glass"><i class="fa-solid fa-bowl-food"></i> Menu Ikonik</a>
+            </div>
         </div>
     </section>
 
+    <!-- Attractions Section -->
     <section id="attractions" class="container">
-        <h2 class="section-title">Tempat Pelancongan Menarik</h2>
+        <div class="section-header">
+            <span class="tech-tag">// WARISAN SEJARAH</span>
+            <h2 class="section-title">Mercu Tanda Utama Melaka</h2>
+            <p class="section-desc">Lokasi fizikal sebenar yang wajib dilawati di Bandar Raya Bersejarah</p>
+        </div>
+
         <div class="grid">
-            <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/A_Famosa%2C_Malacca%2C_Malaysia.jpg/800px-A_Famosa%2C_Malacca%2C_Malaysia.jpg" alt="Kota A Famosa">
-                <div class="card-content">
+            <!-- Card 1 -->
+            <div class="card glass-panel">
+                <div class="card-img-wrapper">
+                    <img src="images/afamosa.jpg" alt="Kota A Famosa Melaka">
+                    <span class="tag tag-amber"><i class="fa-solid fa-landmark"></i> 1511 A.D.</span>
+                </div>
+                <div class="card-body">
                     <h3>Kota A Famosa</h3>
-                    <p>Seni bina peninggalan Portugis dibina pada tahun 1511. Mercu tanda bersejarah paling ikonik di Melaka.</p>
+                    <p>Seni bina Kubu Portugis peninggalan era 1511. Pintu gerbang Porta de Santiago kekal sebagai simbol megah sejarah Melaka.</p>
                 </div>
             </div>
-            <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Malacca_Christ_Church_and_Stadthuys.jpg/800px-Malacca_Christ_Church_and_Stadthuys.jpg" alt="Stadthuys & Red Square">
-                <div class="card-content">
+
+            <!-- Card 2 -->
+            <div class="card glass-panel">
+                <div class="card-img-wrapper">
+                    <img src="images/stadthuys.jpg" alt="Stadthuys Red Square Melaka">
+                    <span class="tag tag-cyan"><i class="fa-solid fa-monument"></i> Era Belanda</span>
+                </div>
+                <div class="card-body">
                     <h3>Bangunan Red Square (Stadthuys)</h3>
-                    <p>Bangunan berwarna merah ikonik peninggalan Belanda yang kini menjadi muzium sejarah Melaka.</p>
+                    <p>Kompleks struktur merah terua di Asia Tenggara yang dibina pada tahun 1650, kini menempatkan Muzium Sejarah & Etnografi.</p>
                 </div>
             </div>
-            <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Melaka_River_Cruise_2019.jpg/800px-Melaka_River_Cruise_2019.jpg" alt="Melaka River Cruise">
-                <div class="card-content">
+
+            <!-- Card 3 -->
+            <div class="card glass-panel">
+                <div class="card-img-wrapper">
+                    <img src="images/rivercruise.jpg" alt="Melaka River Cruise">
+                    <span class="tag tag-purple"><i class="fa-solid fa-water"></i> Pemandangan Malam</span>
+                </div>
+                <div class="card-body">
                     <h3>Melaka River Cruise</h3>
-                    <p>Nikmati pemandangan lukisan mural dan keindahan lampu limpah sepanjang Sungai Melaka di waktu malam.</p>
+                    <p>Menyusuri Sungai Melaka sambil menikmati lukisan mural budaya, lampu limpah neon moden, serta jambatan bersejarah.</p>
                 </div>
             </div>
-            <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Jonker_Street%2C_Malacca.jpg/800px-Jonker_Street%2C_Malacca.jpg" alt="Jonker Street">
-                <div class="card-content">
-                    <h3>Jonker Walk / Jonker Street</h3>
-                    <p>Syurga makanan, cenderamata antik, dan pasar malam yang meriah pada setiap hujung minggu.</p>
+
+            <!-- Card 4 -->
+            <div class="card glass-panel">
+                <div class="card-img-wrapper">
+                    <img src="images/jonkerwalk.jpg" alt="Jonker Walk Night Market">
+                    <span class="tag tag-amber"><i class="fa-solid fa-store"></i> Pasar Malam</span>
+                </div>
+                <div class="card-body">
+                    <h3>Jonker Walk (Jalan Hang Jebat)</h3>
+                    <p>Syurga barangan antik, persembahan kebudayaan, dan jualan makanan jalanan yang hidup meriah setiap hujung minggu.</p>
                 </div>
             </div>
-            <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Strait_Mosque_of_Malacca_2014.jpg/800px-Strait_Mosque_of_Malacca_2014.jpg" alt="Masjid Selat Melaka">
-                <div class="card-content">
+
+            <!-- Card 5 -->
+            <div class="card glass-panel">
+                <div class="card-img-wrapper">
+                    <img src="images/masjidselat.jpg" alt="Masjid Selat Melaka">
+                    <span class="tag tag-cyan"><i class="fa-solid fa-mosque"></i> Terapung</span>
+                </div>
+                <div class="card-body">
                     <h3>Masjid Selat Melaka</h3>
-                    <p>Masjid indah yang dibina di atas pulau buatan, kelihatan seperti terapung apabila air laut surut dan pasang.</p>
+                    <p>Masjid ikonik di atas Pulau Melaka buatan manusia. Kelihatan terapung apabila paras air laut berada di paras pasang.</p>
                 </div>
             </div>
-            <div class="card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Klebang_Beach_Melaka.jpg/800px-Klebang_Beach_Melaka.jpg" alt="Pantai Klebang">
-                <div class="card-content">
-                    <h3>Pantai Klebang</h3>
-                    <p>Terkenal dengan kawasan bukit pasir unik dan minuman 'Coconut Shake' yang menyegarkan.</p>
+
+            <!-- Card 6 -->
+            <div class="card glass-panel">
+                <div class="card-img-wrapper">
+                    <img src="images/klebang.jpg" alt="Pantai Klebang Melaka">
+                    <span class="tag tag-emerald"><i class="fa-solid fa-umbrella-beach"></i> Riadah</span>
+                </div>
+                <div class="card-body">
+                    <h3>Pantai Klebang & Bukit Pasir</h3>
+                    <p>Pantai pesisiran yang terkenal dengan bukit pasir putih ala padang pasir serta jualan Coconut Shake terkenal.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="food" class="container bg-light">
-        <h2 class="section-title">Makanan Wajib Cuba</h2>
-        <ul class="food-list">
-            <li><strong>Asam Pedas Melaka:</strong> Kuah pedas masam berkualiti bersama ikan segar.</li>
-            <li><strong>Coconut Shake Klebang:</strong> Minuman ais kelapa dikisar bersama ais krim vanila.</li>
-            <li><strong>Nasi Ayam Chicken Rice Ball:</strong> Nasi ayam dibentuk bulat bersaiz bebola.</li>
-            <li><strong>Cendol Gula Melaka:</strong> Pencuci mulut tradisional manis beraroma gula Melaka asli.</li>
-        </ul>
-    </section>
+    
+<!-- FOOD SECTION: VISITMELAKA 2026 -->
+<section id="food" class="food-section">
 
+    <div class="food-header">
+        <span class="food-subtitle">TASTE OF MELAKA</span>
+        <h2>Warisan Citarasa <span>Melaka</span></h2>
+        <p>
+            Terokai keunikan makanan tradisional Melaka yang
+            kaya dengan sejarah, budaya dan cita rasa tersendiri.
+        </p>
+    </div>
+
+    <div class="food-container">
+       
+        <!-- 01: ASAM PEDAS -->
+        <article class="food-item">
+            <div class="food-image">
+                <img src="images/asampedas.jpg"
+                     alt="Asam Pedas Melaka">
+                <span class="food-image-number">01</span>
+            </div>
+
+            <div class="food-info">
+                <span class="food-category">MASAKAN TRADISIONAL</span>
+                <h3>Asam Pedas Melaka</h3>
+                <p>
+                    Masakan tradisional yang terkenal dengan
+                    kuah merah pekat, rasa pedas dan masam
+                    yang seimbang. Lazimnya dimasak bersama
+                    ikan dan rempah pilihan.
+                </p>
+                <span class="food-tag">AUTHENTIC TASTE</span>
+            </div>
+        </article>
+
+        <!-- 02: NYONYA LAKSA -->
+        <article class="food-item">
+            <div class="food-image">
+                <img src="images/nyonyalaksa.jpg"
+                     alt="Nyonya Laksa">
+                <span class="food-image-number">02</span>
+            </div>
+
+            <div class="food-info">
+                <span class="food-category">WARISAN PERANAKAN</span>
+                <h3>Nyonya Laksa</h3>
+                <p>
+                    Hidangan mi berkuah yang menggabungkan
+                    rempah tradisional, santan dan bahan-bahan
+                    pilihan. Mencerminkan keunikan warisan
+                    masakan masyarakat Peranakan.
+                </p>
+                <span class="food-tag">NYONYA HERITAGE</span>
+            </div>
+        </article>
+
+        <!-- 03: CENDOL GULA MELAKA -->
+        <article class="food-item">
+            <div class="food-image">
+                <img src="images/cendol.jpg"
+                     alt="Cendol Melaka">
+                <span class="food-image-number">03</span>
+            </div>
+
+            <div class="food-info">
+                <span class="food-category">PENCUCI MULUT</span>
+                <h3>Cendol Gula Melaka</h3>
+                <p>
+                    Pencuci mulut yang menyegarkan dengan
+                    gabungan ais kisar, santan, cendol dan
+                    gula Melaka yang memberikan rasa manis
+                    serta aroma tersendiri.
+                </p>
+                <span class="food-tag">SWEET TRADITION</span>
+            </div>
+        </article>
+
+	<!-- 04: COCONUT SHAKE BATU BERENDAM -->
+        <article class="food-item">
+            <div class="food-image">
+                <img src="images/coconutshake.jpg"
+                     alt="Cendol Melaka">
+                <span class="food-image-number">04</span>
+            </div>
+
+            <div class="food-info">
+                <span class="food-category">PENCUCI MULUT</span>
+                <h3>Coconut Shake</h3>
+                <p>
+                    Minuman ais kelapa dikisar halus diiringi 
+		    scoop ais krim vanila berkrim di atasnya.
+                </p>
+                <span class="food-tag">COCONUT SHAKE</span>
+            </div>
+        </article>
+
+
+    </div>
+
+</section>
+<!-- END FOOD SECTION -->
+
+
+    <!-- Footer -->
     <footer id="tips">
-        <p>&copy; 2026 Destinasi Melaka | Dihasilkan untuk GitHub Pages</p>
+        <div class="footer-container glass-panel">
+            <div class="footer-logo">
+                <i class="fa-solid fa-cube text-neon"></i> VisitMelaka
+            </div>
+            <p>Portal Maklumat Pelancongan & Warisan Kebudayaan Melaka 2026</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+            </div>
+            <p class="copyright">&copy; 2026 Hak Cipta Terpelihara • Dihasilkan untuk GitHub Pages</p>
+        </div>
     </footer>
 </body>
 </html>
