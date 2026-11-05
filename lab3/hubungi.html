@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hubungi Kami - Easzyz Homestay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Easzyz Homestay</h1>
+        <p>Percutian Damai Berkualiti Berlatarkan Sawah Padi & Gunung-Ganang</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Utama</a></li>
+<li><a href="mengenai.html">Mengenai Kami</a></li>
+<li><a href="bilik.html">Bilik & Kemudahan</a></li>
+<li><a href="tarikan.html">Tarikan</a></li>
+<li><a href="galeri.html">Galeri</a></li>
+<li><a href="hubungi.html" class="active">Hubungi</a></li>
+
+        </ul>
+    </nav>
+    <div class="container">
+
+        <h2 class="section-title">Hubungi & Tempahan</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+            <div>
+                <h3>Maklumat Perhubungan</h3>
+                <p style="margin-top: 15px;"><strong>Alamat:</strong> Easzyz Homestay, Jalan Sawah Padi, Durian Tunggal, Melaka</p>
+                <p style="margin-top: 10px;"><strong>Telefon / WhatsApp:</strong> +60 19-323 5036</p>
+                <p style="margin-top: 10px;"><strong>E-mel:</strong> tempahan@easzyzhomestay.com</p>
+            </div>
+            <div>
+                <form onsubmit="alert('Terima kasih! Pertanyaan anda telah dihantar.'); return false;">
+                    <div class="form-group">
+                        <label>Nama Penuh</label>
+                        <input type="text" required placeholder="Nama anda">
+                    </div>
+                    <div class="form-group">
+                        <label>Nombor Telefon</label>
+                        <input type="tel" required placeholder="012-XXXXXXX">
+                    </div>
+                    <div class="form-group">
+                        <label>Mesej / Catatan</label>
+                        <textarea rows="4" placeholder="Tuliskan pertanyaan anda..."></textarea>
+                    </div>
+                    <button type="submit" class="btn" style="width: 100%;">Hantar Tempahan</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <footer>
+        <p>&copy; 2026 Easzyz Homestay. Hak Cipta Terelihara.</p>
+    </footer>
+</body>
+</html>
