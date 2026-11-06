@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Operations Tycoon: Clash Edition Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-dark: #0f172a;
+            --secondary: #3b82f6;
+            --accent: #eff6ff;
+            --bg: #090d16;
+            --card-bg: #1e293b;
+            --text: #f8fafc;
+            --text-light: #94a3b8;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 15px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #1e3a8a, #1e293b);
+            color: white;
+            padding: 20px;
+            border-radius: 14px;
+            border: 2px solid #3b82f6;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 800;
+        }
+        header p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .resource-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .res-card {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .res-info h3 {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .res-info .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--success);
+        }
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .base-panel {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .base-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .building-slot {
+            background: #0f172a;
+            border: 2px dashed #475569;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .building-slot:hover {
+            border-color: var(--secondary);
+            background: #1e293b;
+        }
+        .building-slot h4 {
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+            color: #60a5fa;
+        }
+        .building-slot p {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        .building-slot button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .building-slot button:hover {
+            background: #2563eb;
+        }
+        .control-panel {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .control-panel h2, .base-panel h2 {
+            font-size: 1.1rem;
+            color: #f1f5f9;
+            border-bottom: 2px solid #334155;
+            padding-bottom: 8px;
+        }
+        .action-box {
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
+        .action-box h4 {
+            font-size: 0.9rem;
+            color: var(--warning);
+            margin-bottom: 5px;
+        }
+        .action-box p {
+            font-size: 0.82rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        .action-box button {
+            background: var(--warning);
+            color: #0f172a;
+            border: none;
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .action-box button:hover {
+            background: #d97706;
+            color: white;
+        }
+        .log-box {
+            background: #090d16;
+            color: #38bdf8;
+            padding: 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+            height: 160px;
+            overflow-y: auto;
+            line-height: 1.4;
+            border: 1px solid #334155;
+        }
+        .btn-raid {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            transition: transform 0.2s;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .btn-raid:hover {
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏰 Service Ops: Clash of Business Pro</h1>
+            <p>Sistem Pertahanan Markas, Auto-Defense & Pencapaian Trophy Industri!</p>
+        </header>
+
+        <div class="resource-bar">
+            <div class="res-card">
+                <div class="res-info">
+                    <h3>Modal (Gold)</h3>
+                    <div class="value" id="funds">RM15,000</div>
+                </div>
+            </div>
+            <div class="res-card">
+                <div class="res-info">
+                    <h3>Kapasiti Pax</h3>
+                    <div class="value" id="capacity">80 Pax</div>
+                </div>
+            </div>
+            <div class="res-card">
+                <div class="res-info">
+                    <h3>Pertahanan</h3>
+                    <div class="value" id="defensePower" style="color: #60a5fa;">Level 1</div>
+                </div>
+            </div>
+            <div class="res-card">
+                <div class="res-info">
+                    <h3>Trophy Score</h3>
+                    <div class="value" id="trophy" style="color: #f59e0b;">0 🏆</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layout-grid">
+            <div class="base-panel">
+                <div>
+                    <h2>🗺️ Peta Markas Perniagaan & Pertahanan</h2>
+                    <div class="base-grid">
+                        <div class="building-slot">
+                            <h4>🏛️ HQ Operasi Utama</h4>
+                            <p>Level: <span id="hqTxt">1</span></p>
+                            <button onclick="upgradeHQ()">Naik Taraf (RM5k)</button>
+                        </div>
+                        <div class="building-slot">
+                            <h4>🛡️ Dinding Pertahanan (Shield)</h4>
+                            <p>Level: <span id="defTxt">1</span> (Auto-Block)</p>
+                            <button onclick="upgradeDefense()">Naik Taraf (RM3k)</button>
+                        </div>
+                        <div class="building-slot">
+                            <h4>🏗️ Stesen Kapasiti</h4>
+                            <p>Level: <span id="capTxt">1</span> (+20 Pax)</p>
+                            <button onclick="upgradeCapacityBuilding()">Naik Taraf (RM2.5k)</button>
+                        </div>
+                        <div class="building-slot">
+                            <h4>🗺️ Blueprint Lab</h4>
+                            <p>Level: <span id="blueprintTxt">1</span></p>
+                            <button onclick="upgradeBlueprintLab()">Naik Taraf (RM3k)</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <button class="btn-raid" onclick="startMarketRaid()">⚔️ Lakukan Kempen 'Market Raid' (Cari Keuntungan & Trophy)</button>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <div>
+                    <h2>⚡ Krisis & Serangan Pesaing</h2>
+                    <div class="action-box" id="eventBox" style="display:none;">
+                        <h4 id="eventName">Nama Krisis</h4>
+                        <p id="eventDesc">Huraian...</p>
+                        <button onclick="resolveRaidCrisis()">Tangkis & Selesaikan</button>
+                    </div>
+                    <div id="noEventMsg" style="font-size: 0.85rem; color: var(--text-light); padding: 10px 0;">
+                        🛡️ Sistem pertahanan markas aktif mengawal ancaman pesaing.
+                    </div>
+                </div>
+
+                <div>
+                    <h2>📋 Log Aktiviti & Pertahanan</h2>
+                    <div class="log-box" id="logBox">
+                        [Markas Pro] Selamat datang CEO! Sistem Pertahanan Markas dan sistem Trophy kini aktif. Bina pertahanan anda untuk mengelak kerugian serangan pesaing.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let game = {
+            funds: 15000,
+            capacity: 80,
+            hqLevel: 1,
+            defenseLevel: 1,
+            capLevel: 1,
+            blueprintLevel: 1,
+            quality: 92,
+            trophy: 0,
+            activeCrisis: null
+        };
+
+        const crises = [
+            {
+                name: "🚨 Serangan Pesaing Pasaran (Rival Raid)",
+                desc: "Pesaing utama melancarkan serangan harga rendah untuk merampas pelanggan anda!",
+                cost: -3000,
+                trophyLoss: -15
+            },
+            {
+                name: "⚡ Sabotaj Aliran Proses Digital",
+                desc: "Cuba memperlahankan sistem tempahan anda di pasaran digital.",
+                cost: -2000,
+                trophyLoss: -10
+            },
+            {
+                name: "🌟 Peluang Kontrak Eksklusif Korporat",
+                desc: "Peluang menawan tender besar pasaran terbuka minggu ini!",
+                cost: 5000,
+                trophyGain: 25
+            }
+        ];
+
+        function logMsg(msg, type = "normal") {
+            const box = document.getElementById('logBox');
+            let color = "#38bdf8";
+            if(type === "success") color = "#4ade80";
+            if(type === "danger") color = "#f87171";
+            if(type === "warning") color = "#fbbf24";
+            box.innerHTML += `<br><span style="color:${color}">[Markas] ${msg}</span>`;
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function updateUI() {
+            document.getElementById('funds').innerText = `RM${game.funds.toLocaleString()}`;
+            document.getElementById('capacity').innerText = `${game.capacity} Pax`;
+            document.getElementById('defensePower').innerText = `Level ${game.defenseLevel}`;
+            document.getElementById('trophy').innerText = `${game.trophy} 🏆`;
+
+            document.getElementById('hqTxt').innerText = game.hqLevel;
+            document.getElementById('defTxt').innerText = game.defenseLevel;
+            document.getElementById('capTxt').innerText = game.capLevel;
+            document.getElementById('blueprintTxt').innerText = game.blueprintLevel;
+        }
+
+        function upgradeHQ() {
+            let cost = 5000 * game.hqLevel;
+            if(game.funds < cost) {
+                alert("⚠️ Modal Gold tidak mencukupi untuk naik taraf HQ!");
+                return;
+            }
+            game.funds -= cost;
+            game.hqLevel += 1;
+            game.trophy += 20;
+            logMsg(`HQ Operasi dinaik taraf ke Level ${game.hqLevel}! (+20 Trophy)`, "success");
+            updateUI();
+        }
+
+        function upgradeDefense() {
+            let cost = 3000 * game.defenseLevel;
+            if(game.funds < cost) {
+                alert("⚠️ Modal Gold tidak mencukupi untuk naik taraf Dinding Pertahanan!");
+                return;
+            }
+            game.funds -= cost;
+            game.defenseLevel += 1;
+            game.trophy += 15;
+            logMsg(`Dinding Pertahanan Markas dinaik taraf ke Level ${game.defenseLevel}! Keupayaan menangkis serangan pesaing meningkat.`, "success");
+            updateUI();
+        }
+
+        function upgradeCapacityBuilding() {
+            let cost = 2500 * game.capLevel;
+            if(game.funds < cost) {
+                alert("⚠️ Modal tidak mencukupi!");
+                return;
+            }
+            game.funds -= cost;
+            game.capLevel += 1;
+            game.capacity += 20;
+            logMsg(`Stesen Kapasiti dinaik taraf ke Level ${game.capLevel} (+20 Pax).`, "success");
+            updateUI();
+        }
+
+        function upgradeBlueprintLab() {
+            let cost = 3000 * game.blueprintLevel;
+            if(game.funds < cost) {
+                alert("⚠️ Modal tidak mencukupi!");
+                return;
+            }
+            game.funds -= cost;
+            game.blueprintLevel += 1;
+            logMsg(`Blueprint Lab dinaik taraf! Efisiensi aliran proses meningkat.`, "success");
+            updateUI();
+        }
+
+        function startMarketRaid() {
+            if(game.activeCrisis) {
+                alert("⚠️ Selesaikan krisis serangan semasa sebelum melakukan Market Raid seterusnya!");
+                return;
+            }
+
+            // Jana pendapatan hasil operasi asas markas + trophy bonus
+            let earnings = Math.round(game.capacity * game.blueprintLevel * 60 * (game.quality / 100));
+            game.funds += earnings;
+            game.trophy += 10;
+            logMsg(`Market Raid Berjaya! Meraih pendapatan RM${earnings.toLocaleString()} dan +10 Trophy 🏆.`, "success");
+
+            // Kebarangkalian cetus krisis serangan pesaing (45%)
+            if(Math.random() < 0.45) {
+                let c = crises[Math.floor(Math.random() * crises.length)];
+                
+                // Sistem Pertahanan Auto-Block: Jika level defense tinggi, peluang patahkan serangan
+                let defenseChance = game.defenseLevel * 0.25; // Level 4 = 100% block
+                if (c.cost < 0 && Math.random() < defenseChance) {
+                    logMsg(`🛡️ TAHNIAH! Dinding Pertahanan Level ${game.defenseLevel} berjaya mematahkan serangan '${c.name}' secara automatik! Tiada kerugian.`, "success");
+                    game.trophy += 15;
+                } else {
+                    game.activeCrisis = c;
+                    document.getElementById('eventName').innerText = c.name;
+                    document.getElementById('eventDesc').innerText = c.desc;
+                    document.getElementById('eventBox').style.display = 'block';
+                    document.getElementById('noEventMsg').style.display = 'none';
+                    logMsg(`🚨 AMARAN ANCAMAN: ${c.name}`, "danger");
+                }
+            }
+            updateUI();
+        }
+
+        function resolveRaidCrisis() {
+            if(!game.activeCrisis) return;
+            let c = game.activeCrisis;
+            
+            game.funds += c.cost;
+            if(c.trophyLoss) {
+                game.trophy = Math.max(0, game.trophy + c.trophyLoss);
+            }
+            if(c.trophyGain) {
+                game.trophy += c.trophyGain;
+            }
+
+            logMsg(`Krisis diselesaikan: ${c.name} (Kesan Kewangan: RM${c.cost})`, c.cost >= 0 ? "success" : "danger");
+            
+            game.activeCrisis = null;
+            document.getElementById('eventBox').style.display = 'none';
+            document.getElementById('noEventMsg').style.display = 'block';
+            updateUI();
+        }
+    </script>
+</body>
+</html>

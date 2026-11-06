@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozy Corner - Tiny Room Designer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Quicksand for a cozy, rounded kawaii look -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fcf6f0;
+            color: #5c4a42;
+        }
+        .cozy-card {
+            background: #ffffff;
+            border: 2px dashed #f0dcd0;
+            border-radius: 1.5rem;
+        }
+        .room-grid {
+            background-color: #fff9f5;
+            background-image: 
+                linear-gradient(45deg, #f7ebe1 25%, transparent 25%), 
+                linear-gradient(-45deg, #f7ebe1 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #f7ebe1 75%), 
+                linear-gradient(-45deg, transparent 75%, #f7ebe1 75%);
+            background-size: 40px 40px;
+            background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+        }
+        /* Custom scrollbar for items catalog */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fcf6f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e6c7b8;
+            border-radius: 10px;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes purr {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .interactive-pet:active {
+            animation: purr 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-3 sm:p-6 select-none">
+
+    <!-- Header / Nav Bar -->
+    <header class="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between py-3 px-6 bg-white/80 backdrop-blur-md rounded-2xl mb-4 shadow-sm border border-[#f0dcd0] gap-3">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-[#ffb5a7] flex items-center justify-center text-white text-xl shadow-inner">
+                🛋️
+            </div>
+            <div>
+                <h1 class="text-lg font-bold tracking-tight text-[#6b5247]">Cozy Corner</h1>
+                <p class="text-xs text-[#a3887b]">Bina Bilik Impian Anda • Edisi Pastel Comel</p>
+            </div>
+        </div>
+        
+        <!-- Stats & Scores -->
+        <div class="flex items-center space-x-4 sm:space-x-6">
+            <div class="bg-[#fff1ed] px-4 py-1.5 rounded-xl border border-[#ffd8d0] text-center">
+                <span class="block text-[10px] uppercase font-semibold text-[#b87d72]">Cozy Score</span>
+                <span id="cozy-score" class="font-bold text-[#e07a5f] text-base">0 pts</span>
+            </div>
+            <div class="bg-[#f0f7f4] px-4 py-1.5 rounded-xl border border-[#d2e8df] text-center">
+                <span class="block text-[10px] uppercase font-semibold text-[#5a8c77]">Wang Biji Kopi</span>
+                <span id="coins" class="font-bold text-[#3d8265] text-base">🪙 120</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Game Arena -->
+    <main class="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 flex-grow">
+        
+        <!-- Kolum 1 & 2: Ruang Bilik (Canvas / Layout) -->
+        <section class="lg:col-span-2 bg-white p-4 sm:p-6 rounded-3xl shadow-md border border-[#f0dcd0] flex flex-col justify-between relative overflow-hidden">
+            
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm font-bold text-[#6b5247]">Bilik Tidur Comel</span>
+                    <span class="text-xs bg-[#f4e8e1] text-[#9c786a] px-2.5 py-0.5 rounded-full font-medium">Saiz: 3x3 Grid</span>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="clearRoom()" class="text-xs bg-[#fdf2f2] hover:bg-[#fae1e1] text-[#d9534f] font-medium px-3 py-1.5 rounded-xl transition border border-[#f5c6cb]">
+                        🧹 Kosongkan Bilik
+                    </button>
+                    <button onclick="takeSnapshot()" class="text-xs bg-[#edf7f4] hover:bg-[#d8eee5] text-[#3d8265] font-medium px-3 py-1.5 rounded-xl transition border border-[#c3e6cb]">
+                        📸 Simpan Kenangan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bilik Grid Drop Area -->
+            <div id="room-canvas" class="room-grid w-full h-[360px] sm:h-[420px] rounded-2xl border-2 border-dashed border-[#e6c7b8] relative flex flex-wrap content-start p-3 gap-3 overflow-y-auto">
+                <!-- Elemen diletakkan di sini secara dinamik -->
+                <div id="empty-room-msg" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-[#b89b8e]">
+                    <span class="text-4xl mb-2 floating">🪴</span>
+                    <p class="text-sm font-semibold">Bilik anda masih kosong!</p>
+                    <p class="text-xs text-[#c4aaa0] mt-1">Pilih dan klik barangan di katalog sebelah kanan untuk mula menghias.</p>
+                </div>
+            </div>
+
+            <!-- Tip / Status Box -->
+            <div class="mt-3 pt-3 border-t border-[#f7ebe1] flex items-center justify-between text-xs text-[#9c786a]">
+                <div id="room-status" class="flex items-center space-x-1.5 font-medium">
+                    <span>✨</span>
+                    <span>Tambah perabot comel untuk naikkan skor cozy!</span>
+                </div>
+                <span class="text-[11px] text-[#b89b8e]">Klik barangan dalam bilik untuk alih keluar</span>
+            </div>
+        </section>
+
+        <!-- Kolum 3: Katalog Perabot Comel -->
+        <section class="bg-white p-4 sm:p-5 rounded-3xl shadow-md border border-[#f0dcd0] flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between mb-3 pb-2 border-b border-[#f7ebe1]">
+                    <h2 class="text-sm font-bold text-[#6b5247] uppercase tracking-wide flex items-center space-x-1.5">
+                        <span>🛍️</span>
+                        <span>Katalog Perabot</span>
+                    </h2>
+                    <span class="text-[11px] text-[#b89b8e]">Klik untuk beli</span>
+                </div>
+
+                <!-- Senarai Katalog -->
+                <div id="catalog-list" class="space-y-2.5 max-h-[360px] sm:max-h-[420px] overflow-y-auto pr-1">
+                    <!-- Dimasukkan melalui JS -->
+                </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-[#f7ebe1] text-center">
+                <p class="text-[11px] text-[#b89b8e]">Setiap hiasan membawa kedamaian & ketenangan minda.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer / Panel Bawah -->
+    <footer class="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between py-3 px-6 bg-white/80 backdrop-blur-md rounded-2xl text-xs text-[#9c786a] border border-[#f0dcd0] gap-2">
+        <div class="font-medium">🧸 Tips Dekorasi: Gabungkan tanaman hijau & lampu lembut untuk skor maksimum!</div>
+        <div class="flex space-x-3">
+            <button onclick="showInfoModal()" class="bg-[#fff1ed] hover:bg-[#ffe5df] text-[#e07a5f] font-semibold px-4 py-2 rounded-xl transition border border-[#ffd8d0]">
+                Panduan Permainan
+            </button>
+        </div>
+    </footer>
+
+    <!-- Custom Modal / Popup -->
+    <div id="custom-modal" class="fixed inset-0 bg-[#5c4a42]/40 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white p-6 rounded-3xl max-w-sm w-full text-center shadow-xl border border-[#f0dcd0]">
+            <h3 id="modal-title" class="text-base font-bold text-[#6b5247] mb-2">Makluman</h3>
+            <p id="modal-desc" class="text-xs text-[#9c786a] mb-5 leading-relaxed">Penerangan di sini...</p>
+            <button onclick="closeModal()" class="w-full bg-[#e07a5f] hover:bg-[#d56b4e] text-white text-xs font-bold py-2.5 rounded-xl transition shadow-md">
+                Baiklah ✨
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Logik Permainan -->
+    <script>
+        // Katalog Perabot Comel
+        const catalogItems = [
+            { id: 1, name: "Kucing Comel (Mochi)", icon: "🐱", price: 30, cozy: 25, type: "pet", desc: "Suka tidur dan mengiau manja." },
+            { id: 2, name: "Pokok Monstera Hijau", icon: "🪴", price: 20, cozy: 15, type: "plant", desc: "Memberi udara segar dan estetik." },
+            { id: 3, name: "Sofa Pastel Pink", icon: "🛋️", price: 50, cozy: 40, type: "furniture", desc: "Tempat rehat paling empuk." },
+            { id: 4, name: "Lampu Tidur Awan", icon: "🌙", price: 25, cozy: 20, type: "lighting", desc: "Cahaya malap yang menenangkan." },
+            { id: 5, name: "Karpet Bulu Gebu", icon: "🧶", price: 35, cozy: 30, type: "decor", desc: "Lembut di kaki semasa berjalan." },
+            { id: 6, name: "Meja Kopi Kayu", icon: "🪵", price: 25, cozy: 18, type: "furniture", desc: "Tempat letak cawan teh hangat." },
+            { id: 7, name: "Pemain Piring Hitam", icon: "📻", price: 45, cozy: 35, type: "music", desc: "Memainkan melodi lo-fi yang tenang." },
+            { id: 8, name: "Tetingkap & Cahaya Matahari", icon: "🪟", price: 60, cozy: 50, type: "window", desc: "Pemandangan pagi yang damai." }
+        ];
+
+        let coins = 120;
+        let cozyScore = 0;
+        let placedItems = [];
+
+        // Inisialisasi Katalog
+        function renderCatalog() {
+            const listElem = document.getElementById('catalog-list');
+            let html = '';
+            catalogItems.forEach(item => {
+                html += `
+                    <div class="bg-[#fcf6f0] hover:bg-[#f7ebe1] border border-[#f0dcd0] p-2.5 rounded-2xl flex items-center justify-between transition group">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-2xl bg-white p-2 rounded-xl shadow-xs">${item.icon}</span>
+                            <div>
+                                <h4 class="text-xs font-bold text-[#6b5247]">${item.name}</h4>
+                                <div class="flex items-center space-x-2 text-[10px] mt-0.5">
+                                    <span class="text-[#3d8265] font-semibold">🪙 ${item.price}</span>
+                                    <span class="text-[#e07a5f] font-semibold">+${item.cozy} Cozy</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="buyItem(${item.id})" class="bg-[#e07a5f] hover:bg-[#d56b4e] text-white text-xs font-bold px-3 py-1.5 rounded-xl transition shadow-xs group-hover:scale-105">
+                            Beli
+                        </button>
+                    </div>
+                `;
+            });
+            listElem.innerHTML = html;
+        }
+
+        // Beli & Letak Perabot ke Bilik
+        function buyItem(id) {
+            const item = catalogItems.find(i => i.id === id);
+            if (coins < item.price) {
+                showModal("Wang Biji Kopi Tidak Cukup!", `Anda memerlukan ${item.price} syiling untuk membeli ${item.name}. Hias bilik untuk dapatkan lebih banyak pujian!`);
+                return;
+            }
+
+            coins -= item.price;
+            cozyScore += item.cozy;
+            
+            // Tambah salinan unik ke bilik
+            placedItems.push({
+                instanceId: Date.now() + Math.random(),
+                ...item
+            });
+
+            updateUI();
+            renderRoom();
+        }
+
+        // Padam Perabot dari Bilik
+        function removeItem(instanceId) {
+            const index = placedItems.findIndex(p => p.instanceId === instanceId);
+            if (index !== -1) {
+                const item = placedItems[index];
+                coins += Math.floor(item.price * 0.8); // Dapat pulangan 80%
+                cozyScore -= item.cozy;
+                placedItems.splice(index, 1);
+                updateUI();
+                renderRoom();
+            }
+        }
+
+        // Paparkan Perabot dalam Bilik
+        function renderRoom() {
+            const roomCanvas = document.getElementById('room-canvas');
+            
+            if (placedItems.length === 0) {
+                roomCanvas.innerHTML = `
+                    <div id="empty-room-msg" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-[#b89b8e]">
+                        <span class="text-4xl mb-2 floating">🪴</span>
+                        <p class="text-sm font-semibold">Bilik anda masih kosong!</p>
+                        <p class="text-xs text-[#c4aaa0] mt-1">Pilih dan klik barangan di katalog sebelah kanan untuk mula menghias.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            placedItems.forEach(item => {
+                let extraActionAttr = '';
+                if (item.type === 'pet') {
+                    extraActionAttr = `onclick="petCat(event)" title="Tekan untuk manja kucing!"`;
+                } else if (item.type === 'music') {
+                    extraActionAttr = `onclick="playMusic(event)" title="Tekan untuk pasang lagu!"`;
+                } else {
+                    extraActionAttr = `onclick="removeItem(${item.instanceId})" title="Tekan untuk alih keluar"`;
+                }
+
+                html += `
+                    <div ${extraActionAttr} class="interactive-pet bg-white border-2 border-[#f0dcd0] hover:border-[#e07a5f] p-3 rounded-2xl shadow-sm flex flex-col items-center justify-center cursor-pointer transition relative group w-24 h-24 sm:w-28 sm:h-28">
+                        <span class="text-3xl sm:text-4xl mb-1 floating">${item.icon}</span>
+                        <span class="text-[10px] font-bold text-[#6b5247] text-center truncate w-full">${item.name}</span>
+                        <button onclick="event.stopPropagation(); removeItem(${item.instanceId})" class="absolute -top-2 -right-2 bg-rose-400 hover:bg-rose-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition shadow">
+                            ✕
+                        </button>
+                    </div>
+                `;
+            });
+            roomCanvas.innerHTML = html;
+        }
+
+        // Interaksi Khas: Manja Kucing
+        function petCat(e) {
+            e.stopPropagation();
+            coins += 5;
+            updateUI();
+            showModal("Meow! 🐾", "Kucing comel anda berasa sangat gembira dan bermanja! Anda mendapat +5 Syiling percuma bonus.");
+        }
+
+        // Interaksi Khas: Pasang Lagu
+        function playMusic(e) {
+            e.stopPropagation();
+            showModal("♫ Melodi Lo-Fi Berlagu", "Radio memainkan alunan muzik yang menenangkan. Minda anda terasa sangat tenteram.");
+        }
+
+        // Kosongkan Bilik
+        function clearRoom() {
+            if (placedItems.length === 0) return;
+            // Pulangkan separuh syiling
+            let refund = placedItems.reduce((acc, curr) => acc + Math.floor(curr.price * 0.8), 0);
+            coins += refund;
+            cozyScore = 0;
+            placedItems = [];
+            updateUI();
+            renderRoom();
+            showModal("Bilik Dikosongkan", `Semua perabot disimpan. Sebanyak 🪙 ${refund} syiling telah dipulangkan ke dompet anda.`);
+        }
+
+        // Simpan Kenangan / Snapshot
+        function takeSnapshot() {
+            showModal("📸 Kenangan Disimpan!", `Tahniah! Reka bentuk bilik cozy anda berjaya dirakam dengan Cozy Score sebanyak ${cozyScore} mata. Teruskan hiasan yang lebih menarik!`);
+        }
+
+        // Kemaskini UI Skor & Wang
+        function updateUI() {
+            document.getElementById('cozy-score').textContent = cozyScore + ' pts';
+            document.getElementById('coins').textContent = '🪙 ' + coins;
+        }
+
+        // Modal Kawalan
+        function showModal(title, desc) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-desc').innerHTML = desc;
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function showInfoModal() {
+            showModal("Panduan Dekorasi Cozy Corner", "1. Pilih dan beli perabot comel menggunakan Wang Biji Kopi di katalog kanan.<br>2. Perabot yang dibeli akan muncul di ruang bilik anda secara automatik.<br>3. Klik pada kucing atau radio untuk interaksi istimewa dan bonus!<br>4. Kumpul Cozy Score setinggi mungkin untuk bilik paling damai.");
+        }
+
+        // Mulakan aplikasi pada permulaan
+        window.onload = function() {
+            renderCatalog();
+            updateUI();
+        };
+    </script>
+</body>
+</html>
